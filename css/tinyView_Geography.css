@@ -1,0 +1,26 @@
+.GeoToolTip{
+    position:absolute;
+    padding: 10px;
+    border-radius: 5px;
+    background-color:white;
+    display: none;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.Geo_menu{
+    position: absolute;
+    top: 10px;
+    left: 40px;
+}
+
+.Geo_container{
+    position: relative;
+}
+
+.svg_Geography{
+    width: 800px;
+    height: 650px;
+    position: relative;
+    top: 20px;
+}

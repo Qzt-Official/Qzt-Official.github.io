@@ -1,0 +1,30 @@
+.svg_History{
+    position: relative;
+    top: 20px;
+    width: 800px;
+    height: 600px;
+    background-color:lightblue;
+
+    .line {
+        fill: none;
+        stroke-width: 1.6;
+        visibility:'visible'
+    }
+    
+}
+.toolTip {
+    position: absolute;
+    display: none;
+    min-width: 30px;
+    max-width: 240px;
+    border-radius: 4px;
+    height: auto;
+    background: rgba(250, 250, 250, 0.9);
+    border: 1px solid #DDD;
+    padding: 4px 8px;
+    font-size: .85rem;
+    text-align: left;
+    z-index: 1000;
+}
+
+

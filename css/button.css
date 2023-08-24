@@ -1,0 +1,24 @@
+button{
+  position: absolute;
+  left: 850px;
+}
+
+button#ChinaButton{
+    top: 100px;
+}
+
+button#USButton{
+    top: 150px;
+}
+
+button#UKButton{
+    top: 200px;
+}
+
+button#GermanyButton{
+    top: 250px;
+}
+
+button#AllButton{
+    top: 300px;
+}

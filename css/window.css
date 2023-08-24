@@ -1,0 +1,55 @@
+body{
+    background-color:wheat;
+}
+
+header{
+    width: 800px;
+    font-size:24px;
+    height: 2.5rem;
+    background-color:brown;
+    color:darkblue;
+    line-height: 2.5rem;
+    text-anchor: middle;
+    text-align: center;
+}
+
+.WholeWindow{
+    width: 800px;
+    height:3000px;
+}
+
+.tinyView_History{
+    width: auto;
+    height: 650px;
+}
+
+.Title1{
+    position:relative; 
+    top: 20px;
+}
+
+g.Text1{
+    font-size: 16px;
+    color:darkcyan;
+    position: relative;
+    left: 280px;
+}
+
+.tinyView_Geography{
+    width: auto;
+    height: 700px;
+    position: relative;
+    top: 40px;
+}
+
+.Title2{
+    position:relative; 
+    top: 20px;
+}
+
+g.Text2{
+    font-size: 16px;
+    color:darkcyan;
+    position: relative;
+    left: 280px;
+}
