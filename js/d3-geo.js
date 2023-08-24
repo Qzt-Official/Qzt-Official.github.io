@@ -78,6 +78,7 @@ function updateMap() {
     .attr("fill", (d) => {
       let t = selectedData.find((v) => v[0] == d.properties.name);
       if (t) {
+        //用二次函数计算配色
         let quad = 1-(Math.pow(t[1]-maxValue,2)/Math.pow(maxValue-1,2));
         return mapColor(quad);
       }

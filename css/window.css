@@ -1,51 +1,57 @@
 body {
-  background-color: rgba(245, 222, 179, 0.7);
-  width: 1050px;
+  background-color: lightcyan;
+  width: 1000px;
   height: auto;
 }
 
 header {
+  position: relative;
+  left: 400px;
   width: 800px;
   font-size: 36px;
   height: 2.5rem;
-  background-color: rgba(241, 136, 71, 0.7);
-  color: darkblue;
+  background-color: lightcyan;
+  color:black;
   line-height: 2.5rem;
-  text-anchor: middle;
   text-align: center;
 }
 
 .WholeWindow {
-  width: 800px;
+  width: 1000px;
   height: 3000px;
+  position: relative;
+  left: 350px;
 }
 
 .tinyView_History {
   width: auto;
-  height: 650px;
+  height: 750px;
+  position: relative;
+  left: 0px;
 }
 
 .Title1 {
   position: relative;
   top: 20px;
+  position: relative;
+  background-color: darkcyan;
 }
 
 p.Text1 {
   font-size: 24px;
-  color: darkcyan;
+  color:white;
   position: relative;
-  left: 240px;
+  left: 250px;
 }
 
 .Line1 {
-  background-color: blanchedalmond;
   width: 100%;
   min-width: 760px;
 }
 
 .description1 {
-    font-size: 18px;
-    text-align: justify;
+  font-size: 18px;
+  text-align: middle;
 }
 
 .tinyView_Geography {
@@ -58,11 +64,32 @@ p.Text1 {
 .Title2 {
   position: relative;
   top: 20px;
+  background-color: darkcyan;
 }
 
 p.Text2 {
   font-size: 24px;
-  color: darkcyan;
+  color:white;
   position: relative;
-  left: 240px;
+  left: 250px;
+}
+
+.Line2 {
+  width: 100%;
+  min-width: 760px;
+}
+
+.conclusion1 {
+  font-size: 18px;
+  text-align: justify;
+}
+
+.Line3 {
+  width: 100%;
+  min-width: 760px;
+}
+
+.conclusion2 {
+  font-size: 18px;
+  text-align: middle;
 }

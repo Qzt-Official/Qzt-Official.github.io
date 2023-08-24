@@ -3,7 +3,7 @@ var h = 600;
 var padding = 60;
 var ticks = 10;
 
-var dataset = [], xScale, yScale, xAxis, yAxis, line;
+var dataset = [], xScale, yScale, xAxis, yAxis;
 var TotalPapers = [];
 var Countries_Papers;
 var formatTime = d3.timeFormat("%Y");
@@ -178,7 +178,6 @@ async function loadCSVData() {
             })
             .style('font-family', 'sans-serif')
             .style('font-size', 3)
-            .style('pointer-events', 'none')
             .text(c);
 
         canvas.selectAll('text.willbedeleted')
