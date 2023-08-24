@@ -20,7 +20,7 @@ async function loadCSVData() {
             Papers: parseInt(d.Papers)
         }
     });
-    //异步操作
+    //异步操作,需要用await处理Promise,下同
     dataset = await dataset_p;
 
     let p_data_tem = d3.csv('./data/prepared_data.csv');
@@ -68,7 +68,7 @@ async function loadCSVData() {
 
     canvas.append("g")
         .attr("class", "yAxis")
-        .attr("transform", "translate(" + padding * 1.5 + ",0)")
+        .attr("transform", "translate(" + padding * 1 + ",0)")
         .call(yAxis);
 
     var color_count = 0;

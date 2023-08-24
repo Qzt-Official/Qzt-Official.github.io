@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>D3 Visualiztion</title>
     <script src="lib/d3.v7.js" charset="utf-8"></script>
     <link rel="shortcut icon" href="#" />
-    <link rel="stylesheet" href="css/button.css">
-    <link rel="stylesheet" href="css/window.css">
-    <link rel='stylesheet' href="css/tinyView_History.css">
-    <link rel='stylesheet' href="css/tinyView_Geography.css">
+    <link rel="stylesheet" href="css/button.css" />
+    <link rel="stylesheet" href="css/window.css" />
+    <link rel="stylesheet" href="css/tinyView_History.css" />
+    <link rel="stylesheet" href="css/tinyView_Geography.css" />
+  </head>
 
-<body>
-    <!--tinyView_History所需的按钮-->
-    <button id="ChinaButton">显示/隐藏 China 曲线</button>
-    <button id="USButton">显示/隐藏 United States 曲线</button>
-    <button id="UKButton">显示/隐藏 United Kingdom 曲线</button>
-    <button id="GermanyButton">显示/隐藏 Germany 曲线</button>
-    <button id="AllButton">显示/隐藏 ALL COUNTRIES 曲线</button>
-
+  <body>
     <header>小组作业1:使用D3.js实现可视化</header>
     <div class="WholeWindow">
-        <div class="Title1">
-            <g class="Text1">第一部分：对历史因素的可视化</g>
-            <g class="Word1"></g>
+      <div class="Title1">
+        <p class="Text1">第一部分：对历史因素的可视化</p>
+      </div>
+      <div class="Line1">
+        <p class="description1">
+          我们按国家和年份进行分类，将不同领域的文章数据分组求和后绘制折线图（受篇幅所限，这里只给出了世界总和数据和几个论文总数最多的国家的数据）。
+          从图像中可以得知，世界论文数量从2002年开始增长速度明显加快。
+          呈现出美国“一骑绝尘”，中国”后起直追“，英德稳步增长的态势。
+        </p>
+      </div>
+      <div class="tinyView_History">
+        <!--tinyView_History所需的按钮-->
+        <button id="ChinaButton">显示/隐藏 China 曲线</button>
+        <button id="USButton">显示/隐藏 United States 曲线</button>
+        <button id="UKButton">显示/隐藏 United Kingdom 曲线</button>
+        <button id="GermanyButton">显示/隐藏 Germany 曲线</button>
+        <button id="AllButton">显示/隐藏 ALL COUNTRIES 曲线</button>
+        <svg class="svg_History" xmlns="https://www.w3.org/TR/SVG2/"></svg>
+      </div>
+      <div class="Title2">
+        <p class="Text2">第二部分：对地理因素的可视化</p>
+      </div>
+      <div class="tinyView_Geography">
+        <div class="Geo_container">
+          <svg class="svg_Geography" xmlns="https://www.w3.org/TR/SVG2/"></svg>
+          <div class="Geo_menu">
+            <span>Year:</span>
+            <select class="date_selector"></select>
+          </div>
+          <div class="GeoToolTip">222</div>
         </div>
-        <div class="tinyView_History">
-            <svg class="svg_History" xmlns="https://www.w3.org/TR/SVG2/"></svg>
-        </div>
-        <div class="Title2">
-            <g class="Text2">第二部分：对地理因素的可视化</g>
-            <g class="Word1"></g>
-        </div>
-        <div class="tinyView_Geography">
-            <div class="Geo_container">
-                <svg class="svg_Geography" xmlns="https://www.w3.org/TR/SVG2/"></svg>
-                <div class="Geo_menu">
-                    <span>Year:</span>
-                    <select class="date_selector">
-                    </select>
-                </div>
-                <div class="GeoToolTip">222</div>
-            </div>
-        </div>
-        <div class="tinyView_Economy">
-            <svg class="svg_Economy" xmlns="https://www.w3.org/TR/SVG2/"></svg>
-        </div>
+      </div>
+      <div class="tinyView_Economy">
+        <svg class="svg_Economy" xmlns="https://www.w3.org/TR/SVG2/"></svg>
+      </div>
     </div>
-    <script src='js/d3-history.js'></script>
-    <script src='js/d3-geo.js'></script>
-</body>
-
+    <script src="js/d3-history.js"></script>
+    <script src="js/d3-geo.js"></script>
+  </body>
 </html>

@@ -1,55 +1,68 @@
-body{
-    background-color:wheat;
+body {
+  background-color: rgba(245, 222, 179, 0.7);
+  width: 1050px;
+  height: auto;
 }
 
-header{
-    width: 800px;
-    font-size:24px;
-    height: 2.5rem;
-    background-color:brown;
-    color:darkblue;
-    line-height: 2.5rem;
-    text-anchor: middle;
-    text-align: center;
+header {
+  width: 800px;
+  font-size: 36px;
+  height: 2.5rem;
+  background-color: rgba(241, 136, 71, 0.7);
+  color: darkblue;
+  line-height: 2.5rem;
+  text-anchor: middle;
+  text-align: center;
 }
 
-.WholeWindow{
-    width: 800px;
-    height:3000px;
+.WholeWindow {
+  width: 800px;
+  height: 3000px;
 }
 
-.tinyView_History{
-    width: auto;
-    height: 650px;
+.tinyView_History {
+  width: auto;
+  height: 650px;
 }
 
-.Title1{
-    position:relative; 
-    top: 20px;
+.Title1 {
+  position: relative;
+  top: 20px;
 }
 
-g.Text1{
-    font-size: 16px;
-    color:darkcyan;
-    position: relative;
-    left: 280px;
+p.Text1 {
+  font-size: 24px;
+  color: darkcyan;
+  position: relative;
+  left: 240px;
 }
 
-.tinyView_Geography{
-    width: auto;
-    height: 700px;
-    position: relative;
-    top: 40px;
+.Line1 {
+  background-color: blanchedalmond;
+  width: 100%;
+  min-width: 760px;
 }
 
-.Title2{
-    position:relative; 
-    top: 20px;
+.description1 {
+    font-size: 18px;
+    text-align: justify;
 }
 
-g.Text2{
-    font-size: 16px;
-    color:darkcyan;
-    position: relative;
-    left: 280px;
+.tinyView_Geography {
+  width: auto;
+  height: 700px;
+  position: relative;
+  top: 40px;
+}
+
+.Title2 {
+  position: relative;
+  top: 20px;
+}
+
+p.Text2 {
+  font-size: 24px;
+  color: darkcyan;
+  position: relative;
+  left: 240px;
 }
