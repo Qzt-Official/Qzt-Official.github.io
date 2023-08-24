@@ -56,7 +56,7 @@ Promise.all([
         .style("display", "block")
         .style("left", e.offsetX + 10 + "px")
         .style("top", e.offsetY + 10 + "px").html(`
-                    Country: ${d.properties.name}
+                    Country or Region: ${d.properties.name}
                     <br />
                     Paper: ${t ? t[1] : "no data"}
                 `);
