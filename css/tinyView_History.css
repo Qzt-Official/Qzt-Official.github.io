@@ -1,30 +1,77 @@
-.svg_History{
-    position: relative;
-    top: 20px;
-    width: 800px;
-    height: 600px;
-    background-color:lightblue;
-
-    .line {
-        fill: none;
-        stroke-width: 1.6;
-        visibility:'visible'
-    }
-    
+.svg_History1 {
+  position: relative;
+  top: 20px;
+  width: 800px;
+  height: 600px;
+  background-color: transparent;
 }
+path.line {
+  fill: none;
+  stroke-width: 3;
+  visibility: "visible";
+}
+
 .toolTip {
-    position: absolute;
-    display: none;
+  position: absolute;
+  display: none;
+  min-width: 30px;
+  max-width: 240px;
+  border-radius: 4px;
+  height: auto;
+  background: rgba(250, 250, 250, 0.9);
+  border: 1px solid #ddd;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  text-align: left;
+  z-index: 1000;
+}
+
+.svg_History2 {
+  position: relative;
+  top: 20px;
+  width: 700px;
+  height: 600px;
+  background-color: transparent;
+}
+
+.radartooltip{
+    position: relative;
+    display: block;
     min-width: 30px;
-    max-width: 240px;
+    max-width: 100px;
     border-radius: 4px;
     height: auto;
     background: rgba(250, 250, 250, 0.9);
-    border: 1px solid #DDD;
+    border: 1px solid #ddd;
     padding: 4px 8px;
-    font-size: .85rem;
+    font-size: 0.85rem;
     text-align: left;
     z-index: 1000;
+    bottom: 60px;
 }
 
+#tooltip {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
 
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+}

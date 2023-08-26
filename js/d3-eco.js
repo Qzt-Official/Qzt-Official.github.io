@@ -1,261 +1,221 @@
-var w = 800;
-var h = 600;
+var Width = 1000;
+var Height = 600;
 var padding = 60;
-var ticks = 10;
+var dataset = [];
+// 初始化数据集和 SVG 元素
+var svg = d3
+  .select("#content") // 选择 content 容器
+  .append("svg") // 在容器内添加 SVG 元素
+  .attr("width", Width)
+  .attr("height", Height);
 
-var dataset = [], xScale, yScale, xAxis, yAxis;
-var TotalPapers = [];
-var Countries_Papers;
-var formatTime = d3.timeFormat("%Y");
-var parseDate = d3.timeParse('%Y');
-var canvas = d3.select(".svg_History") //图表画布
+var geo_xScale, geo_yScale, rScale;
 
-async function loadCSVData() {
-    let dataset_p = d3.csv('./data/raw_full(replaced_countries).csv', function (d) {
-        return {
-            Year: parseDate(d.year),
-            Discipline: d.discipline,
-            Specialty: d.specialty,
-            Country: d.Country,
-            Papers: parseInt(d.Papers)
-        }
-    });
-    //异步操作,需要用await处理Promise,下同
-    dataset = await dataset_p;
+function initScales() {
+  // 初始化比例尺
+  geo_xScale = d3
+    .scaleLinear()
+    .domain([
+      0,
+      d3.max(dataset, function (d) {
+        return d[0];
+      }),
+    ])
+    .range([padding, Width - padding * 2]);
 
-    let p_data_tem = d3.csv('./data/prepared_data.csv');
+  geo_yScale = d3
+    .scaleLinear()
+    .domain([
+      0,
+      d3.max(dataset, function (d) {
+        return d[1];
+      }),
+    ])
+    .range([Height - padding, padding]);
 
-    p_data = await p_data_tem;
-    //console.log(p_data);
-
-    p_data = p_data.map(v => Object.keys(v).map(c => Number(v[c]) ? Number(v[c]) : v[c]));//加载预处理数据，加快绘图速度
-
-    for (var i = 1973; i <= 2017; i++) { //利用循环体录入1973-2017论文数总和
-        var temobj = { 'Year': parseDate(i) };
-        var temarr = dataset.slice(456000);//"ALL COUNTRIES"仅在此后出现
-        temobj['Papers'] = d3.sum(temarr.filter(d => (formatTime(d.Year) == String(i) && d.Country == 'ALL COUNTRIES')), d => d.Papers);//筛选，求和
-        TotalPapers.push(temobj);
-    }
-
-    xScale = d3.scaleTime()
-        .domain([d3.min(TotalPapers, d => d.Year), d3.max(TotalPapers, d => d.Year)])
-        .range([padding, w]);
-
-    yScale = d3.scaleLinear()
-        .domain([0, d3.max(TotalPapers, d => d.Papers)])
-        .range([h - padding, padding]);
-
-    xAxis = d3.axisBottom()
-        .scale(xScale)
-        .ticks(ticks)
-        .tickFormat(formatTime);
-
-    yAxis = d3.axisLeft()
-        .scale(yScale)
-        .ticks(ticks);
-
-    line = d3.line()
-        .defined(function (d) {
-            return d.Papers >= 1;
-        })
-        .x(d => xScale(d.Year))
-        .y(d => yScale(d.Papers));
-
-    canvas.append("g")
-        .attr("class", "xAxis")
-        .attr("transform", "translate(0," + (h - padding) + ")")
-        .call(xAxis);
-
-    canvas.append("g")
-        .attr("class", "yAxis")
-        .attr("transform", "translate(" + padding * 1 + ",0)")
-        .call(yAxis);
-
-    var color_count = 0;
-    var line_color = d3.schemeCategory10;
-
-    function Generate_Line_by_Country(c) { //给出国家名绘制条形图的方法
-        var temD = [];
-
-        let r = p_data.filter(d => d[45] == c);
-        let r0 = r[0];
-        for (var i = 1973; i <= 2017; i++) {
-            let tobj = { 'Year': parseDate(i) };
-            tobj['Papers'] = r0[i - 1973];
-            temD.push(tobj);
-        }
-
-        canvas.append('path')
-            .datum(temD)
-            .attr('class', `line${c}`)
-            .attr('d', line)
-            .attr('fill', 'none')
-            .attr('stroke', line_color[color_count])
-            .style('pointer-events', 'none');
-
-        toolTip = d3.select('body')
-            .append('div')
-            .attr('class', 'toolTip');
-
-        canvas.selectAll(`circle.${c}`)
-            .data(temD)
-            .enter()
-            .append('circle')
-            .attr('class', `${c}`)
-            .attr('cx', function (d) {
-                return xScale(d.Year)
-            })
-            .attr('cy', function (d) {
-                return yScale(d.Papers)
-            })
-            .attr('r', 3)
-            .attr('fill', line_color[color_count])
-            .on('mousemove', nodeMouseOver)
-            .on('mouseleave', nodeMouseOut);
-
-        function nodeMouseOver(event, d) {
-            // 创建标识并更新其位置
-            toolTip.style("left", event.pageX + 18 + "px")
-                .style("top", event.pageY + 18 + "px")
-                .style("display", "block")
-                .html(`Papers:<strong>${d.Papers}</strong>`);
-
-            //让光标变个样
-            d3.select(event.target).style("cursor", "pointer");
-
-            //突出显示被选择的圆
-            d3.select(event.target)
-                .attr('r', 6);
-        }
-
-        function nodeMouseOut(event, d) {
-            //鼠标移出时隐藏标识
-            toolTip.style("display", "none"); // Hide toolTip
-
-            //把光标变回来
-            d3.select(event.target).style("cursor", "default");
-
-            //让圆圈恢复原样
-            d3.select(event.target)
-                .transition()
-                .attr('r', 3);
-        }
-
-        canvas.selectAll(`text.label${c}`)
-            .data(temD)
-            .join('text')
-            .attr('class', function (d) {
-                if (formatTime(d.Year) != 2017) {
-                    return 'willbedeleted'; //为不符要求的元素添加特殊标签以便后续删除
-                }
-                else {
-                    return `label${c}`
-                }
-            })
-            .attr('x', function (d) {
-                if (c == 'ALL COUNTRIES') {
-                    return w - padding * 2.3;//标签太长了
-                }
-                else {
-                    return w - padding - (c.length) * 3;
-                }
-            })
-            .attr('y', function (d) {
-                if (c == 'United Kingdom') {
-                    return yScale(d.Papers + 30000);//UK的标签略显靠下，人为将其升高一点
-                }
-                else {
-                    return yScale(d.Papers + 10000);
-                }
-            })
-            .style('fill', function (d) {
-                if (formatTime(d.Year) != '2017') {
-                    return 'none';
-                }
-                else {
-                    return line_color[color_count];
-                }
-            })
-            .style('font-family', 'sans-serif')
-            .style('font-size', 3)
-            .text(c);
-
-        canvas.selectAll('text.willbedeleted')
-            .remove();//删除不符要求的svg文本元素
-
-        color_count = color_count + 1;
-        color_count = color_count % 10;
-
-        return null;
-    }
-
-    //创建网格线
-    d3.selectAll('g.yAxis g.tick')
-        .append('line')
-        .attr('class', 'gridline')
-        .attr('x1', 0)
-        .attr('y1', 0)
-        .attr('x2', w)
-        .attr('y2', 0)
-        .attr('stroke', 'lightgray')
-        .attr('stroke-dasharray', '4')
-
-    d3.selectAll('g.xAxis g.tick')
-        .append('line')
-        .attr('class', 'gridline')
-        .attr('x1', 0)
-        .attr('y1', 0)
-        .attr('x2', 0)
-        .attr('y2', -h + padding)
-        .attr('stroke', 'lightgray')
-        .attr('stroke-dasharray', '4')
-
-    Generate_Line_by_Country('United States');
-    Generate_Line_by_Country('China');
-    Generate_Line_by_Country('Germany');
-    Generate_Line_by_Country('United Kingdom');
-    Generate_Line_by_Country('ALL COUNTRIES');
-
-    var Buttonlist = ['ChinaButton', 'USButton', 'UKButton', 'GermanyButton', 'AllButton'];
-    var Countrylist = ['China', 'United States', 'United Kingdom', 'Germany', 'ALL COUNTRIES'];
-
-    for (var i = 0; i <= 4; i++) {
-        (function(index) {
-            d3.select(`#${Buttonlist[index]}`)
-                .on('click', function () {
-                    ShowHideLine(Countrylist[index]);
-                });
-        })(i);
-    }
-
-    function ShowHideLine(country) {
-        if(country=='United States'){
-            country = 'United.States';
-        }
-        else if(country=='United Kingdom'){
-            country='United.Kingdom';
-        }
-        else if(country=='ALL COUNTRIES'){
-            country='ALL.COUNTRIES';
-        };
-
-        if (canvas.select(`path.line${country}`).style('visibility') == 'visible') {
-            canvas.select(`path.line${country}`)
-                .style('visibility', 'hidden');
-            canvas.selectAll(`circle.${country}`)
-                .style('visibility', 'hidden');
-            canvas.select(`text.label${country}`)
-                .style('visibility', 'hidden');
-        }
-        else {
-            canvas.select(`path.line${country}`).style('visibility', 'visible');
-            canvas.selectAll(`circle.${country}`)
-                .style('visibility', 'visible');
-            canvas.select(`text.label${country}`)
-                .style('visibility', 'visible');
-        };
-    }
-
+  rScale = d3
+    .scaleLinear()
+    .domain([
+      0,
+      d3.max(dataset, function (d) {
+        return d[1];
+      }),
+    ])
+    .range([2, 4]);
 }
+// 定义函数用于绘制散点图
+function show() {
+  // 删除之前的散点
+  svg.selectAll("circle").remove();
+  initScales();
+  // 创建 x 轴和 y 轴
+  var xAxis = d3.axisBottom().scale(geo_xScale).ticks(7);
+  var yAxis = d3.axisLeft().scale(geo_yScale).ticks(6);
+  // 移除之前的坐标轴
+  svg.selectAll(".axis").remove();
+  // 添加新的 x 轴和 y 轴
+  svg
+    .append("g")
+    .attr("class", "axis")
+    .attr(
+      "transform",
+      "translate(" + (padding - 40) + ", " + (Height - padding) + ")"
+    ) // 调整 x 轴位置
+    .call(xAxis);
+  svg
+    .append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(" + (padding + 20) + ", 0)")
+    .call(yAxis);
+  // 添加横轴标签
+  var xAxisLabel = svg
+    .append("text")
+    .attr("class", "axis-label")
+    .attr("x", Width / 2)
+    .attr("y", Height - 10)
+    .style("text-anchor", "middle")
+    .text("论文数");
+  // 添加纵轴标签
+  var yAxisLabel = svg
+    .append("text")
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -Height / 2)
+    .attr("y", padding - 40)
+    .style("text-anchor", "middle")
+    .text("人均GDP数");
+  // 添加图表标题
+  svg
+    .append("text")
+    .attr("x", Width / 2 - 120)
+    .attr("y", 30)
+    .attr("class", "title")
+    .text("GDP与论文数散点图");
 
-loadCSVData();
+  // 添加散点
+  svg
+    .selectAll("circle")
+    .data(dataset)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) {
+      return geo_xScale(d[0]) + 20;
+    })
+    .attr("cy", function (d) {
+      return geo_yScale(d[1]);
+    })
+    .attr("r", function (d) {
+      return rScale(d[1]);
+    });
+}
+var ecoyear = 1990;
+var ecodata = {};
+var gdp = {};
+
+function getCountryYearGDP(country, year) {
+  var newArr = gdp.filter(function (ele) {
+    return ele.Country == country;
+  });
+  var a = newArr[0];
+  var mygdp = 0;
+  try {
+    mygdp = a[year];
+  } catch (e) {}
+  return mygdp;
+}
+// 使用 Promise 并行加载两个 CSV 文件
+Promise.all([d3.csv("./data/GDP.csv"), d3.csv("./data/raw.csv")]).then(
+  async ([map, csv]) => {
+    gdp = map;
+
+    // 处理数据，数据聚合按 year 和国家 group ,并对 paper 求和
+    d3.groups(
+      csv,
+      (d) => d.year,
+      (d) => d.Country
+    ).map(([year, countries]) => {
+      let arr = [];
+      countries.forEach(([name, items]) => {
+        var thisgdp = getCountryYearGDP(name, year);
+        if (parseInt(thisgdp)) {
+          arr.push([d3.sum(items, (v) => +v.Papers), parseInt(thisgdp), name]);
+        }
+      });
+      ecodata[year] = arr;
+      // 添加年份选项
+      d3.select("#dateselector")
+        .append("option")
+        .attr("value", year)
+        .html(year);
+    });
+    // 监听年份选择
+    d3.select("#dateselector").on("change", (e) => {
+      let selector = e.target;
+      year = selector.options[selector.selectedIndex].value;
+      dataset = ecodata[year]; // 更新散点数据
+
+      geo_xScale = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(dataset, function (d) {
+            return d[0];
+          }),
+        ])
+        .range([padding, Width - padding * 2]);
+
+      geo_yScale = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(dataset, function (d) {
+            return d[1];
+          }),
+        ])
+        .range([Height - padding, padding]);
+
+      rScale = d3
+        .scaleLinear()
+        .domain([
+          0,
+          d3.max(dataset, function (d) {
+            return d[1];
+          }),
+        ])
+        .range([2, 4]);
+      console.log(dataset);
+      show(); // 调用绘制函数显示更新后的数据
+      // 鼠标移动，显示 tooltip
+      d3.select("#content")
+        .on("mousemove", function (event) {
+          var [x, y] = d3.pointer(event);
+          var xValue = geo_xScale.invert(x);
+          var yValue = geo_yScale.invert(y);
+
+          var nearest = null;
+          var minDistance = Number.MAX_VALUE;
+          dataset.forEach(function (d) {
+            var distance = Math.sqrt(
+              (xValue - d[0]) ** 2 + (yValue - d[1]) ** 2
+            );
+            if (distance < minDistance) {
+              nearest = d;
+              minDistance = distance;
+            }
+          });
+          var tooltip = d3
+            .select(".tooltip")
+            .style("left", x + "px")
+            .style("top", y + "px")
+            .style("display", "block");
+
+          if (nearest) {
+            tooltip.html(nearest[2] + "," + nearest[0] + "," + nearest[1]);
+          }
+        })
+        .on("mouseout", function () {
+          d3.select(".tooltip").style("display", "none");
+        });
+    });
+  }
+);

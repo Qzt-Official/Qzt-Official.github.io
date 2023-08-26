@@ -1,0 +1,32 @@
+.title {
+  font-size: 26px;
+  font-family: "Microsoft YaHei";
+  fill: black;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: "Microsoft YaHei";
+  font-size: 12px;
+}
+.axis-label {
+  font-family: "Microsoft YaHei";
+  font-size: 14px;
+  fill: black;
+}
+.tooltip {
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+    font-family: "Microsoft YaHei";
+    font-size: 12px;
+    pointer-events: none;
+    display: none;
+    width: 150px;
+    height: 30px;
+    overflow: auto;
+  }

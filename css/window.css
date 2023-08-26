@@ -23,14 +23,14 @@ header {
   left: 350px;
 }
 
-.tinyView_History {
+.tinyView_History1 {
   width: auto;
-  height: 750px;
+  height: 650px;
   position: relative;
   left: 0px;
 }
 
-.Title1 {
+.Title{
   position: relative;
   top: 20px;
   position: relative;
@@ -54,17 +54,18 @@ p.Text1 {
   text-align: middle;
 }
 
+.tinyView_History2 {
+  width: auto;
+  height: 400px;
+  position: relative;
+  left: 0px;
+}
+
 .tinyView_Geography {
   width: auto;
   height: 700px;
   position: relative;
   top: 40px;
-}
-
-.Title2 {
-  position: relative;
-  top: 20px;
-  background-color: darkcyan;
 }
 
 p.Text2 {
