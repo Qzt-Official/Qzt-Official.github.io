@@ -148,6 +148,9 @@ Promise.all([d3.csv("./data/GDP.csv"), d3.csv("./data/raw.csv")]).then(
         .attr("value", year)
         .html(year);
     });
+
+      d3.select('#dateselector').select("option[value='1990']")
+      .attr('selected','selected');
     // 监听年份选择
     d3.select("#dateselector").on("change", (e) => {
       let selector = e.target;
@@ -183,7 +186,6 @@ Promise.all([d3.csv("./data/GDP.csv"), d3.csv("./data/raw.csv")]).then(
           }),
         ])
         .range([2, 4]);
-      console.log(dataset);
       show(); // 调用绘制函数显示更新后的数据
       // 鼠标移动，显示 tooltip
       d3.select("#content")
